@@ -7,7 +7,6 @@
 
     <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
     <IsPackable>true</IsPackable>
-    <PackageType>Analyzer</PackageType>
     <DevelopmentDependency>true</DevelopmentDependency>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <EnableAnalyzerReleaseTracking>true</EnableAnalyzerReleaseTracking>
