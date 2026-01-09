@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DimonSmartAllowDynamicLeakAttribute.g.cs" Visible="false" />
+  </ItemGroup>
+</Project>
