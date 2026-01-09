@@ -1,0 +1,35 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build and Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: ['8.0.x', '9.0.x']
+      fail-fast: false
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore DimonSmart.DynamicLeakAnalyzers.sln
+
+    - name: Build solution
+      run: dotnet build DimonSmart.DynamicLeakAnalyzers.sln --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test DimonSmart.DynamicLeakAnalyzers.sln --configuration Release --no-build --verbosity normal

@@ -7,14 +7,23 @@
 
     <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
     <IsPackable>true</IsPackable>
+    <PackageType>Analyzer</PackageType>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <EnableAnalyzerReleaseTracking>true</EnableAnalyzerReleaseTracking>
 
     <PackageId>DimonSmart.DynamicLeakAnalyzer</PackageId>
+    <Title>DimonSmart.DynamicLeakAnalyzer</Title>
     <Version>0.1.0</Version>
     <Authors>DimonSmart</Authors>
+    <Company>DimonSmart</Company>
     <Description>Roslyn analyzer that detects unintended dynamic leaks (implicit dynamic conversions and var inferred as dynamic).</Description>
+    <PackageProjectUrl>https://github.com/DimonSmart/DynamicLeakAnalyzer</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/DimonSmart/DynamicLeakAnalyzer</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>roslyn;analyzer;dynamic</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <!-- <RepositoryUrl>https://github.com/DimonSmart/DimonSmart.DynamicLeakAnalyzer</RepositoryUrl> -->
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -34,6 +43,11 @@
     <None Include="buildTransitive\\**\\*.*" Pack="true" PackagePath="buildTransitive\\" />
     <None Include="..\\..\\README.md" Pack="true" PackagePath="" Condition="Exists('..\\..\\README.md')" />
     <None Include="..\\..\\LICENSE" Pack="true" PackagePath="" Condition="Exists('..\\..\\LICENSE')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
 
 </Project>

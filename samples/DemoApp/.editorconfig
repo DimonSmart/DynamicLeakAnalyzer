@@ -1,0 +1,3 @@
+[*.cs]
+dotnet_diagnostic.DSM002.severity = warning
+dotnet_diagnostic.IDE0008.severity = none

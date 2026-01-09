@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Create Release and Publish NuGet
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+
+    - name: Extract version from tag
+      id: extract_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Restore dependencies
+      run: dotnet restore src/DimonSmart.DynamicLeakAnalyzer/DimonSmart.DynamicLeakAnalyzer.csproj
+
+    - name: Build project
+      run: dotnet build src/DimonSmart.DynamicLeakAnalyzer/DimonSmart.DynamicLeakAnalyzer.csproj --configuration Release --no-restore -p:Version=${{ steps.extract_version.outputs.VERSION }} -p:PackageVersion=${{ steps.extract_version.outputs.VERSION }}
+
+    - name: Create package
+      run: dotnet pack src/DimonSmart.DynamicLeakAnalyzer/DimonSmart.DynamicLeakAnalyzer.csproj --configuration Release --no-build -p:Version=${{ steps.extract_version.outputs.VERSION }} -p:PackageVersion=${{ steps.extract_version.outputs.VERSION }} --output ./artifacts
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          ./artifacts/*.nupkg
+          ./artifacts/*.snupkg
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish to NuGet
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
