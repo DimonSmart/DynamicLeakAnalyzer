@@ -24,13 +24,8 @@
     <PackageTags>roslyn;analyzer;dynamic</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
-    <!-- Keep analyzer DLL only in analyzers/ while still generating symbols -->
-    <IncludeBuildOutput>true</IncludeBuildOutput>
-    <DefaultAllowedOutputExtensionsInPackageBuildOutputFolder>.none</DefaultAllowedOutputExtensionsInPackageBuildOutputFolder>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder></AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <!-- Analyzer packages should not include the DLL in the lib folder, but in analyzers/dotnet/cs -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
   </PropertyGroup>
 
@@ -41,7 +36,8 @@
 
   <ItemGroup>
     <TfmSpecificPackageFile Include="$(TargetPath)" PackagePath="analyzers/dotnet/cs" />
-    <None Include="buildTransitive\\**\\*.*" Pack="true" PackagePath="buildTransitive\\" />
+    <TfmSpecificPackageFile Include="$(TargetDir)$(TargetName).pdb" PackagePath="analyzers/dotnet/cs" />
+    <None Include="buildTransitive\\**\\*.*" Pack="true" PackagePath="buildTransitive" />
     <None Include="..\\..\\README.md" Pack="true" PackagePath="" Condition="Exists('..\\..\\README.md')" />
     <None Include="..\\..\\LICENSE" Pack="true" PackagePath="" Condition="Exists('..\\..\\LICENSE')" />
   </ItemGroup>
